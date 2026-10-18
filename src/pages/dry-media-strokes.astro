@@ -5,8 +5,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 <PageLayout title="Dry media strokes" slug="dry-media-strokes">
   <div class="monologue">
-    Dry media such as pencils and pastels are among our most familiar drawing tools. They are convenient and versatile, and their textures can create rich effects while revealing the character of the paper or other surface beneath them.
-    <div class="jp">鉛筆やパステルなどのドライメディアは、私たちにとって最も身近な画材の一つです。手軽で幅広い表現に使え、その質感は豊かな表情を生み出すとともに、紙などの下地の特徴も引き出します。</div>
+    Dry media such as <a href="https://www.kynd.info/writing/pencils-brushes-and-paints/#mimicking-pencil-drawings" target="_blank" rel="noopener">pencils and pastels</a> are among our most familiar drawing tools. They are convenient and versatile, and their textures can create rich effects while revealing the character of the paper or other surface beneath them.
+    <div class="jp"><a href="https://www.kynd.info/writing/pencils-brushes-and-paints/#鉛筆画を模倣する" target="_blank" rel="noopener">鉛筆やパステル</a>などのドライメディアは、私たちにとって最も身近な画材の一つです。手軽で幅広い表現に使え、その質感は豊かな表情を生み出すとともに、紙などの下地の特徴も引き出します。</div>
   </div>
 
   <section class="demo-section" id="dry-strokes">
@@ -21,8 +21,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <p>From top to bottom: pencil, charcoal, and pastel, all drawn with a single renderer using three different settings.</p>
       <div class="jp">上から順に、鉛筆、木炭、パステルです。ひとつのレンダラーを、設定を変えて使い分けています。</div>
 
-      <p>We simulate the paper tooth by thresholding screen-space noise against the stroke's coverage. As a result, light lines break into speckles rather than fading evenly.</p>
-      <div class="jp">紙の目は、画面空間のノイズをストロークの被覆率に応じてしきい値処理することで再現します。そのため、薄い線は均一に薄れるのではなく、粒状に途切れます。</div>
+      <p>We simulate the paper tooth by thresholding <a href="https://www.kynd.info/writing/reading-a-noise-function" target="_blank" rel="noopener">screen-space noise</a> against the stroke's coverage. As a result, light lines break into speckles rather than fading evenly.</p>
+      <div class="jp">紙の目は、<a href="https://www.kynd.info/writing/reading-a-noise-function" target="_blank" rel="noopener">画面空間のノイズ</a>をストロークの被覆率に応じてしきい値処理することで再現します。そのため、薄い線は均一に薄れるのではなく、粒状に途切れます。</div>
 
       <p>The three media are distinguished by the scale of the paper tooth (in pixels), stroke width, softness, and edge roughness.</p>
       <div class="jp">3種類の画材は、紙の目のスケール（ピクセル単位）、ストロークの幅、柔らかさ、輪郭の粗さによって描き分けています。</div>

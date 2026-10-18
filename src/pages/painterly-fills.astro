@@ -10,8 +10,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </div>
 
   <div class="prose">
-    <p>Each fill creates a region as described in the <a href={`${base}/fills`}>Fills</a> overview, then shades it like pigment. Thick paint uses a height field that lighting renders as relief; washes sample the canvas beneath and pull it along like water.</p>
-    <div class="jp">どの塗りも、<a href={`${base}/fills`}>Fills</a>の概要で説明されている方法で領域を作り、顔料のような陰影を加えます。厚みのある絵の具では、高さ情報に光を当てて立体感を表現します。一方、ウォッシュは下地のキャンバスを読み取り、水のように引きずります。</div>
+    <p>Each fill creates a region as described in the <a href={`${base}/fills`}>Fills</a> overview, then shades it like <a href="https://www.kynd.info/writing/pencils-brushes-and-paints/#paint-flow" target="_blank" rel="noopener">pigment</a>. Thick paint uses a height field that <a href="https://www.kynd.info/writing/illuminating-objects" target="_blank" rel="noopener">lighting renders as relief</a>; washes sample the canvas beneath and pull it along like water.</p>
+    <div class="jp">どの塗りも、<a href={`${base}/fills`}>Fills</a>の概要で説明されている方法で領域を作り、<a href="https://www.kynd.info/writing/pencils-brushes-and-paints/#絵の具の流れ" target="_blank" rel="noopener">顔料</a>のような陰影を加えます。厚みのある絵の具では、高さ情報に<a href="https://www.kynd.info/writing/illuminating-objects" target="_blank" rel="noopener">光を当てて</a>立体感を表現します。一方、ウォッシュは下地のキャンバスを読み取り、水のように引きずります。</div>
   </div>
 
   <section class="demo-section" id="paints">
@@ -26,8 +26,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <p>Opaque paint with surface relief: dry and scratched, flat with gentle undulations, or thick oil applied with a knife.</p>
       <div class="jp">表面に起伏のある不透明な絵の具です。乾いてかすれた質感、平らな面がゆるやかにうねる質感、ナイフで厚く塗った油絵の具を表現します。</div>
 
-      <p>The height field combines a dome-shaped rise along the edge with noise in the interior. The dome uses a smoothstep function of distance, and its analytically derived slope ensures a smooth transition into the flat interior without a crease. Low-frequency noise creates broad swells, while high-frequency noise adds fine detail. For the knife-painted oil, straight-cut segments create sharp creases and steps.</p>
-      <div class="jp">高さ情報は、縁のドーム状の盛り上がりと内部のノイズを組み合わせて作ります。ドームには距離に応じたsmoothstep関数を用い、解析的に導出した勾配によって、折れ目を生じさせずに平らな内部へ滑らかにつなげます。低周波ノイズが大きなうねりを生み、高周波ノイズが細かな質感を加えます。ナイフで塗った油絵の具には、直線的な切り口を使って鋭い折れ目や段差を加えます。</div>
+      <p>The height field combines a dome-shaped rise along the edge with noise in the interior. The dome uses a <a href="https://www.kynd.info/writing/about-interpolation/#smoothstep-functions" target="_blank" rel="noopener">smoothstep function</a> of distance, and its <a href="https://www.kynd.info/writing/differentiation/#rate-of-change" target="_blank" rel="noopener">analytically derived slope</a> ensures a smooth transition into the flat interior without a crease. <a href="https://www.kynd.info/writing/reading-a-noise-function" target="_blank" rel="noopener">Low-frequency noise</a> creates broad swells, while high-frequency noise adds fine detail. For the knife-painted oil, straight-cut segments create sharp creases and steps.</p>
+      <div class="jp">高さ情報は、縁のドーム状の盛り上がりと内部のノイズを組み合わせて作ります。ドームには距離に応じた<a href="https://www.kynd.info/writing/about-interpolation/#smoothstep-functions" target="_blank" rel="noopener">smoothstep関数</a>を用い、<a href="https://www.kynd.info/writing/differentiation/#変化の割合" target="_blank" rel="noopener">解析的に導出した勾配</a>によって、折れ目を生じさせずに平らな内部へ滑らかにつなげます。<a href="https://www.kynd.info/writing/reading-a-noise-function" target="_blank" rel="noopener">低周波ノイズ</a>が大きなうねりを生み、高周波ノイズが細かな質感を加えます。ナイフで塗った油絵の具には、直線的な切り口を使って鋭い折れ目や段差を加えます。</div>
 
       <p>Each paint blends two colors in mottled patches, like a brush loaded with multiple colors. Thick oil keeps the transition sharp: the colors meet along a distinct boundary shaped by low-frequency noise, as if two paints had been laid side by side without blending.</p>
       <div class="jp">それぞれの絵の具は、複数の色を含ませた筆のように、2色をまだらに混ぜ合わせます。厚い油絵の具では、色の境目をくっきりと保ちます。低周波ノイズで形作られた明確な境界に沿って2色が接し、混ざらずに隣り合わせに置かれた絵の具のように見えます。</div>
@@ -49,8 +49,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <p>A single renderer handles all three. The paint interacts with the background in two ways: a min operation darkens it like layered pigment, while a mix covers it like an opaque layer. Water controls the balance: more water favors darkening the background over covering it. With less water, the edge sharpens and coverage increases until the fill resembles gouache. Water also creates uneven opacity, leaving nearly transparent patches.</p>
       <div class="jp">3種類すべてを1つのレンダラーで表現します。絵の具は背景に2通りの作用をもたらします。min演算では顔料を重ねたように背景を暗くし、mixでは不透明な層のように背景を覆います。水分量によって両者のバランスが変わり、水分が多いほど、背景を覆うよりも暗くする作用が強まります。水分が少なくなると、縁がくっきりとし、背景を覆う力が強まって、ガッシュのような塗りになります。また、水分によって不透明度にむらが生じ、ほとんど透明な部分が残ります。</div>
 
-      <p>Rather than sampling the background at a single point, the renderer samples it along a direction that shifts with position. This makes the pigment appear to flow with the water. Gouache covers the most and pulls the background the farthest, evoking a brushstroke.</p>
-      <div class="jp">背景は一点だけでなく、位置に応じて変わる方向に沿って読み取ります。これにより、顔料が水とともに流れるように見えます。ガッシュは背景を強く覆い最も遠くまで引きずるため、筆跡が見えるような表現になります。</div>
+      <p>Rather than sampling the background at a single point, the renderer samples it along a direction that shifts with position, so the pigment appears to flow with the water. This is not a <a href="https://www.kynd.info/writing/fluid-simulation" target="_blank" rel="noopener">fluid simulation</a>: the drag direction simply comes from a noise field. Gouache covers the most and pulls the background the farthest, evoking a brushstroke.</p>
+      <div class="jp">背景は一点だけでなく、位置に応じて変わる方向に沿って読み取るため、顔料が水とともに流れるように見えます。これは<a href="https://www.kynd.info/writing/fluid-simulation" target="_blank" rel="noopener">流体シミュレーション</a>ではなく、引きずる方向をノイズから決めているだけの近似です。ガッシュは背景を強く覆い最も遠くまで引きずるため、筆跡が見えるような表現になります。</div>
     </div>
   </section>
 

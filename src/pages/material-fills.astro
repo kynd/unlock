@@ -5,8 +5,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 <PageLayout title="Material fills" slug="material-fills">
   <div class="monologue">
-    On this page, we shade a blob to look like metal, glass, and stone, using reflection and refraction.
-    <div class="jp">このページでは、反射や屈折を用いて、塗りに金属、ガラス、石のような陰影を付けます。</div>
+    On this page, we shade a blob to look like metal, glass, and stone, using <a href="https://www.kynd.info/writing/reflection-and-refraction" target="_blank" rel="noopener">reflection and refraction</a>.
+    <div class="jp">このページでは、<a href="https://www.kynd.info/writing/reflection-and-refraction" target="_blank" rel="noopener">反射や屈折</a>を用いて、塗りに金属、ガラス、石のような陰影を付けます。</div>
   </div>
 
   <section class="demo-section" id="materials">
@@ -21,11 +21,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <p>The blob shaded to resemble metal, smooth glass, and faceted glass.</p>
       <div class="jp">金属、滑らかなガラス、ファセットガラスの質感を表現した塗りです。</div>
 
-      <p><strong>Metal:</strong> The metal reflects a simulated environment to create a chrome-like appearance: dark ground, a mid-tone sky, and narrow bands of bright light with sharp edges.</p>
-      <div class="jp"><strong>金属：</strong>金属は、クロームのような見た目を表現するため、想定した環境を反射します。環境は、暗い地面、中間調の空、輪郭の鋭い細い光の帯で構成されています。こうした鋭い反射が、表面に金属らしさを与えます。</div>
+      <p><strong>Metal:</strong> The metal reflects a <a href="https://www.kynd.info/writing/light-and-2d-graphics/#reflection" target="_blank" rel="noopener">simulated environment</a> to create a chrome-like appearance: dark ground, a mid-tone sky, and narrow bands of bright light with sharp edges.</p>
+      <div class="jp"><strong>金属：</strong>金属は、クロームのような見た目を表現するため、想定した<a href="https://www.kynd.info/writing/light-and-2d-graphics/#反射" target="_blank" rel="noopener">環境を反射</a>します。環境は、暗い地面、中間調の空、輪郭の鋭い細い光の帯で構成されています。こうした鋭い反射が、表面に金属らしさを与えます。</div>
 
-      <p><strong>Glass:</strong> The surface normal determines which part of the background is sampled, with distortion strongest where the surface is most tilted. The Fresnel effect brightens the glass at grazing angles.</p>
-      <div class="jp"><strong>ガラス：</strong>面の法線に応じて背景を参照する位置が決まり、面が大きく傾くほどゆがみが強くなります。面をかすめる角度では、フレネル効果によってガラスが明るく見えます。</div>
+      <p><strong>Glass:</strong> The <a href="https://www.kynd.info/writing/normal-calculation" target="_blank" rel="noopener">surface normal</a> determines which part of the background is sampled, with distortion strongest where the surface is most tilted. The Fresnel effect brightens the glass at grazing angles.</p>
+      <div class="jp"><strong>ガラス：</strong><a href="https://www.kynd.info/writing/normal-calculation" target="_blank" rel="noopener">面の法線</a>に応じて背景を参照する位置が決まり、面が大きく傾くほどゆがみが強くなります。面をかすめる角度では、フレネル効果によってガラスが明るく見えます。</div>
 
       <p><strong>Facets:</strong> The faceted glass uses a triangular lattice distorted by low-frequency noise, with each triangle assigned a random tilt. This creates irregular triangular panes that each displace the background in a different direction.</p>
       <div class="jp"><strong>ファセット：</strong>ファセットガラスには、低周波ノイズでゆがめた三角格子を使い、三角形ごとにランダムな傾きを与えます。これにより、不規則な三角形の面が生まれ、それぞれが異なる方向に背景をずらします。</div>

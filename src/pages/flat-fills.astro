@@ -46,8 +46,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <p>Three flat fills with repeating patterns. Each pattern is evaluated in world space in the shader, so it stays fixed regardless of where the shape is placed.</p>
       <div class="jp">繰り返しパターンを使った、3種類のフラットな塗りです。パターンはシェーダ内でワールド座標に基づいて計算されるため、形をどこに置いてもパターンの位置は変わりません。</div>
 
-      <p><strong>Polka dots:</strong> Circles arranged on a hexagonal lattice, each with a randomly selected palette color and a small, seeded offset from its lattice point. The paper shows through the gaps.</p>
-      <div class="jp"><strong>水玉：</strong>六角格子上に円を並べ、それぞれにパレットからランダムに選んだ色を付けます。それぞれの円は、シードに基づいて格子点から少しずらして配置します。すき間からは紙の色が見えます。</div>
+      <p><strong>Polka dots:</strong> Circles arranged on a <a href="https://www.kynd.info/writing/tiling/#plane-filling-shapes" target="_blank" rel="noopener">hexagonal lattice</a>, each with a randomly selected palette color and a small, seeded offset from its lattice point. The paper shows through the gaps.</p>
+      <div class="jp"><strong>水玉：</strong><a href="https://www.kynd.info/writing/tiling/#平面充填図形" target="_blank" rel="noopener">六角格子</a>上に円を並べ、それぞれにパレットからランダムに選んだ色を付けます。それぞれの円は、シードに基づいて格子点から少しずらして配置します。すき間からは紙の色が見えます。</div>
 
       <p><strong>Squares:</strong> A grid rotated 45 degrees, with a colored square inset in each cell and no offset.</p>
       <div class="jp"><strong>正方形：</strong>45度回転させた格子のそれぞれのセルに、余白を残して色付きの正方形を描きます。</div>

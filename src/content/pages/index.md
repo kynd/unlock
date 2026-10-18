@@ -1,5 +1,5 @@
 ---
-title: Intro
+title: Étude on Painting (Unlock)
 ---
 
 <div class="prose">

@@ -21,8 +21,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <p>These paths are derived from the base path and drawn as new strokes.</p>
       <div class="jp">元のパスから導いたパスを、新たな筆跡として描画します。</div>
 
-      <p><strong>Spiral:</strong> The tip circles using sin and cos while its center moves along the base path, producing one continuous coil. It completes one turn for each cycle of arc length, so every loop advances the same distance regardless of the stroke's length.</p>
-      <div class="jp"><strong>スパイラル：</strong>中心が元のパスに沿って進むあいだ、先端がsinとcosで円を描き、一本の連続したコイルになります。弧長のcycleごとに1回転するため、ストロークの長さによらず、それぞれのループは同じ距離だけ進みます。</div>
+      <p><strong>Spiral:</strong> The tip circles using <a href="https://www.kynd.info/writing/rotation-and-trigonometry/#trigonometry" target="_blank" rel="noopener">sin and cos</a> while its center moves along the base path, producing one continuous coil. It completes one turn for each cycle of arc length, so every loop advances the same distance regardless of the stroke's length.</p>
+      <div class="jp"><strong>スパイラル：</strong>中心が元のパスに沿って進むあいだ、先端が<a href="https://www.kynd.info/writing/rotation-and-trigonometry/#三角関数" target="_blank" rel="noopener">sinとcos</a>で円を描き、一本の連続したコイルになります。弧長のcycleごとに1回転するため、ストロークの長さによらず、それぞれのループは同じ距離だけ進みます。</div>
 
       <p><strong>Entangled:</strong> Copies of the path are offset by seeded low-frequency waves. The wave count scales with the path's length, keeping the wiggles evenly spaced on both long and short strokes.</p>
       <div class="jp"><strong>もつれ：</strong>パスの複製を、シード付きの低周波の波でずらします。波の数はパスの長さに応じて変わるため、長いストロークでも短いストロークでも、同じ間隔で揺れます。</div>
@@ -41,8 +41,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <iframe src={`${base}/demos/wiggle-strokes/index.html?embedded`} title="Wiggle" scrolling="no"></iframe>
     </div>
     <div class="prose">
-      <p>A single path weaves from side to side across the base path. The width controls the wave's amplitude and scales the overall shape, while the wavelength is a fixed distance in pixels. The brush line's thickness is calculated from these two values and kept between 2 and 6 pixels to remain proportional to the shape. The number of waves scales with the path's length, keeping the pattern consistent across strokes.</p>
-      <div class="jp">一本のパスが、元のパスを左右に横切りながら進みます。幅は波の振幅を決め、形全体の大きさを変えます。一方、波長はピクセル単位の固定値です。波をなぞる筆の線幅は、この2つの値から算出し、2〜6ピクセルの範囲に収めて、形との釣り合いを保ちます。波の数はパスの長さに応じて変わるため、どのストロークでも一貫したパターンになります。</div>
+      <p>A single path weaves from side to side across the base path. The width controls the <a href="https://www.kynd.info/writing/wave" target="_blank" rel="noopener">wave's amplitude</a> and scales the overall shape, while the wavelength is a fixed distance in pixels. The brush line's thickness is calculated from these two values and kept between 2 and 6 pixels to remain proportional to the shape. The number of waves scales with the path's length, keeping the pattern consistent across strokes.</p>
+      <div class="jp">一本のパスが、元のパスを左右に横切りながら進みます。幅は<a href="https://www.kynd.info/writing/wave" target="_blank" rel="noopener">波の振幅</a>を決め、形全体の大きさを変えます。一方、波長はピクセル単位の固定値です。波をなぞる筆の線幅は、この2つの値から算出し、2〜6ピクセルの範囲に収めて、形との釣り合いを保ちます。波の数はパスの長さに応じて変わるため、どのストロークでも一貫したパターンになります。</div>
     </div>
   </section>
 

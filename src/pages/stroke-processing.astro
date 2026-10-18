@@ -6,7 +6,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 <PageLayout title="Stroke processing" slug="stroke-processing">
   <div class="monologue">
     This page explores ways to reshape a drawn path to suit the stroke or fill it will become. Different results call for different qualities: smoother curves, marks that remain separate at corners, or closed regions that can be filled.
-    <div class="jp">このページでは、描いたパスを、最終的なストロークや塗りに合わせて整える方法を紹介します。より滑らかな曲線、角で分離したままのマーク、塗りつぶせる閉じた領域など、求める結果によって必要な性質は異なります。</div>
+    <div class="jp">このページでは描いたパスを、最終的なストロークや塗りに合わせて整える方法を紹介します。より滑らかな曲線、角で分離したままのマーク、塗りつぶせる閉じた領域など、求める結果によって必要な性質は異なります。</div>
   </div>
 
   <section class="demo-section" id="smoothing">
@@ -18,14 +18,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <iframe src={`${base}/demos/stroke-processing/index.html?embedded`} title="Curve smoothing" scrolling="no"></iframe>
     </div>
     <div class="prose">
-      <p>Raw pointer input is often shaky, so smoothing the path before rendering a stroke can help. Draw on the canvas with the mouse. The gray line shows the raw path at one-pixel width; the blue and red lines show the Natural and Hobby curves.</p>
-      <div class="jp">ポインター入力には手ぶれが含まれることが多いため、ストロークを描画する前にパスを平滑化すると効果的です。マウスでキャンバスに描いてみてください。グレーの線は入力したパスそのものを1ピクセル幅で表示し、青と赤の線はそれぞれNatural曲線とHobby曲線を示します。</div>
+      <p>Raw pointer input is often shaky, so smoothing the path before rendering a stroke can help. Some methods, such as <a href="https://www.kynd.info/writing/smoothing/#laplacian" target="_blank" rel="noopener">Laplacian smoothing</a>, average out these fluctuations. Here, we take a different approach: resampling the line drawn by the user to reduce the number of points, then connecting them smoothly. Draw on the canvas with the mouse. The gray line shows the raw path at one-pixel width; the blue and red lines show the <a href="https://www.kynd.info/writing/controlling-curves/" target="_blank" rel="noopener">Natural and Hobby curves</a>, respectively.</p>
+      <div class="jp">ポインター入力には手ぶれが含まれることが多いため、ストロークを描画する前にパスを平滑化すると効果的です。<a href="https://www.kynd.info/writing/smoothing/#ラプラシアン" target="_blank" rel="noopener">ラプラシアン</a>のようにブレの平均をとるような方法もありますが、ここでは別の方法として、ユーザーが描いた線をリサンプリングして点の数を減らし、それらを滑らかにつなぎます。マウスでキャンバスに描いてみてください。グレーの線は入力したパスそのものを1ピクセル幅で表示し、青と赤の線はそれぞれ<a href="https://www.kynd.info/writing/controlling-curves/" target="_blank" rel="noopener">Natural曲線とHobby曲線</a>を示します。</div>
 
       <p>Both methods use the same knots, so the <strong>Span</strong> slider adjusts their balance between fidelity and smoothness at the same time. We sample one knot per span along the path's arc length. This removes wobble between knots, so the span determines the strength of the smoothing.</p>
       <div class="jp">どちらの手法も同じノットを使うため、<strong>Span</strong>スライダーで両方の忠実度と滑らかさのバランスを同時に調整できます。パスの弧長に沿って、一定のスパンごとにノットを1つ取ります。ノット間の揺れが取り除かれるため、スパンによって平滑化の強さが決まります。</div>
 
-      <p>For more about the Natural and Hobby curves, see <a href="https://www.kynd.info/writing/controlling-curves/" target="_blank" rel="noopener">Controlling curves</a>.</p>
-      <div class="jp">Natural曲線とHobby曲線について詳しくは、<a href="https://www.kynd.info/writing/controlling-curves/" target="_blank" rel="noopener">Controlling curves（曲線のコントロール）</a>をご覧ください。</div>
     </div>
   </section>
 
@@ -44,8 +42,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <p>The Natural and Hobby curves each solve a system across all knots. Adding a knot therefore recalculates the entire curve. Its influence decreases with distance but never reaches zero.</p>
       <div class="jp">Natural曲線とHobby曲線は、それぞれすべてのノットを使って連立方程式を解きます。そのため、新しいノットを追加すると曲線全体が再計算されます。新しいノットの影響は離れるほど小さくなりますが、ゼロにはなりません。</div>
 
-      <p>Each segment of a Catmull-Rom or B-spline curve depends only on its four surrounding knots. Adding a knot changes only the final segments; everything before them stays fixed.</p>
-      <div class="jp">Catmull-Rom曲線とB-スプライン曲線は、それぞれのセグメントが周囲の4つのノットだけに依存します。ノットを追加しても変わるのは末尾のセグメントだけで、それより前の部分は固定されたままです。</div>
+      <p>Each segment of a <a href="https://en.wikipedia.org/wiki/Centripetal_Catmull%E2%80%93Rom_spline" target="_blank" rel="noopener">Catmull-Rom</a> or <a href="https://en.wikipedia.org/wiki/B-spline" target="_blank" rel="noopener">B-spline</a> curve depends only on its four surrounding knots. Adding a knot changes only the final segments; everything before them stays fixed.</p>
+      <div class="jp"><a href="https://ja.wikipedia.org/wiki/Catmull-Romスプライン曲線" target="_blank" rel="noopener">Catmull-Rom曲線</a>と<a href="https://ja.wikipedia.org/wiki/Bスプライン曲線" target="_blank" rel="noopener">B-スプライン曲線</a>は、それぞれのセグメントが周囲の4つのノットだけに依存します。ノットを追加しても変わるのは末尾のセグメントだけで、それより前の部分は固定されたままです。</div>
 
       <p>The Catmull-Rom curve passes through every knot, but it is only C1 continuous, so its curvature may change abruptly at the knots. The B-spline is C2 continuous and therefore smoother, but it approximates the knots rather than passing through them.</p>
       <div class="jp">Catmull-Rom曲線はすべてのノットを通りますが、C1連続であるため、ノットで曲率が急変することがあります。B-スプラインはC2連続でより滑らかですが、ノットを通るのではなく、その近くを通るように近似します。</div>

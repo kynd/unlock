@@ -477,8 +477,8 @@ const isPublic    = currentIdx >= 0;
       color: var(--fg-muted); letter-spacing: -0.01em;
     }
     .monologue p { margin: 0; }
-    .monologue a { color: var(--fg-muted); text-decoration: underline; text-decoration-color: var(--fg-muted); text-underline-offset: 3px; transition: text-decoration-color 0.15s; }
-    .monologue a:hover { text-decoration-color: var(--fg); }
+    .monologue a { color: var(--link); text-decoration: underline; text-decoration-color: var(--link-underline); text-underline-offset: 3px; transition: text-decoration-color 0.15s; }
+    .monologue a:hover { text-decoration-color: var(--link); }
     .monologue strong { color: var(--fg); font-weight: 500; }
 
     /* Demo sections */
@@ -510,7 +510,7 @@ const isPublic    = currentIdx >= 0;
     .main-inner > .demo-embed { margin-left: 1.5rem; margin-bottom: 4rem; }
 
     /* Two photos stacked at the top of the intro, aligned to the text column. */
-    .intro-photos { display: flex; flex-direction: column; gap: 0.8rem; margin: 0 0 2.6rem; max-width: 800px; }
+    .intro-photos { display: flex; flex-direction: column; gap: 0.8rem; margin: 0 -1.5rem 2.6rem; }
     .intro-photos img { display: block; width: 100%; height: auto; border-radius: 2px; }
 
     /* A content image with a caption, aligned to the text column. */
@@ -677,6 +677,7 @@ const isPublic    = currentIdx >= 0;
       .main-inner { padding: 1.5rem 1.25rem 3rem; }
       h1 { font-size: 2rem; }
       .prose { max-width: 100%; }
+      .intro-photos { margin-right: 0; }
     }
   </style>
 </head>

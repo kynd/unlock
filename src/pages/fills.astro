@@ -10,8 +10,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </div>
 
   <div class="prose">
-    <p>The two methods below turn an open path into a closed region. The region is represented as a signed distance field in the fragment shader, allowing a fill to push the boundary, texture the interior, or shade it as a surface without adding geometry.</p>
-    <div class="jp">以下の2つの手法では、開いたパスを閉じた領域に変換します。この領域はフラグメントシェーダ内で符号付き距離場として表現されるため、ジオメトリを追加せずに、塗りで境界を押し広げたり、内部にテクスチャを適用したり、表面として陰影をつけたりできます。</div>
+    <p>The two methods below turn an open path into a closed region. The region is represented as a <a href="https://www.kynd.info/writing/signed-distance-functions" target="_blank" rel="noopener">signed distance field</a> in the fragment shader, allowing a fill to push the boundary, texture the interior, or shade it as a surface without adding geometry. Unlike the analytic primitives a distance field is usually built from (a circle, a box), here the exact drawn contour is passed to the shader, which measures the distance to that polygon.</p>
+    <div class="jp">以下の2つの手法では、開いたパスを閉じた領域に変換します。この領域はフラグメントシェーダ内で<a href="https://www.kynd.info/writing/signed-distance-functions" target="_blank" rel="noopener">符号付き距離場</a>として表現されるため、ジオメトリを追加せずに、塗りで境界を押し広げたり、内部にテクスチャを適用したり、表面として陰影をつけたりできます。距離場はふつう、円や矩形のような数式のプリミティブから作りますが、ここでは描いた輪郭そのものをシェーダに渡し、そのポリゴンまでの距離を測ります。</div>
   </div>
 
   <section class="demo-section" id="blobs">
@@ -23,8 +23,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <iframe src={`${base}/demos/blob-drawing/index.html?embedded`} title="Blob drawing" scrolling="no"></iframe>
     </div>
     <div class="prose">
-      <p>This demo creates a closed path that encloses the entire drawn gesture. It finds the smallest convex region containing all drawn points, then smooths and fills it.</p>
-      <div class="jp">このデモでは、描いた線全体を囲む閉じたパスを作ります。描いたすべての点を含む最小の凸領域を求め、それを滑らかにして塗りつぶします。</div>
+      <p>This demo creates a closed path that encloses the entire drawn gesture. It finds the <a href="https://www.kynd.info/writing/gift-wrapping" target="_blank" rel="noopener">smallest convex region</a> containing all drawn points, then smooths and fills it.</p>
+      <div class="jp">このデモでは、描いた線全体を囲む閉じたパスを作ります。描いたすべての点を含む<a href="https://www.kynd.info/writing/gift-wrapping" target="_blank" rel="noopener">最小の凸領域</a>を求め、それを滑らかにして塗りつぶします。</div>
     </div>
   </section>
 
