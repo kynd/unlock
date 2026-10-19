@@ -16,16 +16,21 @@
       cursor: default;
     }
     .buffer-shield .dp-label {
-      position: absolute; top: 8px; left: 10px;
+      position: absolute; left: 10px;
       color: rgba(255,255,255,0.75);
     }
+    .buffer-shield .label-color   { top: 8px; }
+    .buffer-shield .label-opacity { top: calc(50% - 8px); }
   </style>
 </head>
 <body>
   <div class="demo-layout">
     <div class="canvas-wrap">
       <canvas id="canvas"></canvas>
-      <div class="buffer-shield" id="shield"><span class="dp-label">The coverage buffer</span></div>
+      <div class="buffer-shield" id="shield">
+        <span class="dp-label label-color">Color</span>
+        <span class="dp-label label-opacity">Opacity</span>
+      </div>
     </div>
 
     <div class="dp-panel">

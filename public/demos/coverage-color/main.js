@@ -52,44 +52,61 @@ const cycle = setupDrawCycle({
     pointerTrace: false,
 });
 
-// The right half: the coverage layer's buffer, in color. A colored mark leaves
-// premultiplied color there, so the crossing shows the two pigments layered
-// rather than brightening toward white.
+// The right half shows the single coverage buffer split into its two channels,
+// stacked: Color on top (RGB, un-premultiplied by the coverage, so the pure
+// pigment shows), Opacity below (the alpha, as brightness). The buffer holds
+// one RGBA target: alpha takes the MAX (single coverage), while the multicolor
+// mark composites its color as a straight over. So at a self-crossing the
+// opacity pane stays flat while the color pane shows the pigments layered.
+const BG = '#232323';
 const backing = new THREE.Mesh(
     new THREE.PlaneGeometry(1, 1),
-    new THREE.MeshBasicMaterial({ color: '#232323' })
+    new THREE.MeshBasicMaterial({ color: BG })
 );
 backing.position.z = 1.0;
 backing.userData.overlay = true;
 stage.add(backing);
 
-const view = new THREE.Mesh(
-    new THREE.PlaneGeometry(1, 1),
-    new THREE.ShaderMaterial({
-        uniforms: { uMap: { value: stage.coverage.target.texture } },
+function paneMaterial(mode) {
+    return new THREE.ShaderMaterial({
+        uniforms: {
+            uMap: { value: stage.coverage.target.texture },
+            uMode: { value: mode },               // 0 = color, 1 = opacity
+            uBg: { value: new THREE.Color(BG) },
+        },
         vertexShader: /* glsl */`
             varying vec2 vUv;
             void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
         `,
         fragmentShader: /* glsl */`
             uniform sampler2D uMap;
+            uniform float uMode;
+            uniform vec3 uBg;
             varying vec2 vUv;
             void main() {
                 vec4 c = texture2D(uMap, vUv);
-                gl_FragColor = vec4(c.rgb, 1.0);
+                vec3 col = uMode < 0.5
+                    ? (c.a > 0.0001 ? c.rgb / c.a : uBg)   // un-premultiplied color
+                    : vec3(c.a);                            // coverage as brightness
+                gl_FragColor = vec4(col, 1.0);
             }
         `,
-    })
-);
-view.position.z = 1.01;
-view.userData.overlay = true;
-stage.add(view);
+    });
+}
+
+const colorView = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), paneMaterial(0));
+const opacityView = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), paneMaterial(1));
+for (const v of [colorView, opacityView]) { v.position.z = 1.01; v.userData.overlay = true; stage.add(v); }
 
 function layoutBufferView() {
     backing.scale.set(stage.extentX, stage.extentY * 2, 1);
-    backing.position.x = stage.extentX / 2;
-    view.scale.set(stage.extentX * 0.92, stage.extentY * 0.92, 1);
-    view.position.x = stage.extentX / 2;
+    backing.position.set(stage.extentX / 2, 0, 1.0);
+    // Each pane fits the full-canvas aspect into its half of the right side.
+    const w = stage.extentX * 0.9, h = stage.extentY * 0.9;
+    colorView.scale.set(w, h, 1);
+    opacityView.scale.set(w, h, 1);
+    colorView.position.set(stage.extentX / 2, stage.extentY / 2, 1.01);     // top of screen
+    opacityView.position.set(stage.extentX / 2, -stage.extentY / 2, 1.01);  // bottom of screen
 }
 
 document.getElementById('clear-btn').addEventListener('click', () => {
