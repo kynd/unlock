@@ -43,4 +43,20 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <div class="jp">キャンバスに描いて試してみましょう。元のポインターの軌跡が黒、滑らかにした中心線が青で表示され、その周りに塗りつぶされたストロークの形が描かれます。</div>
     </div>
   </section>
+
+  <div class="prose">
+    <p>All the choices in this project (or any creative decisions in general) are contextual. For example, <a href="https://www.kynd.info/writing/smoothing/" target="_blank" rel="noopener">smoothing</a> is useful for making geometry-based strokes look good, while jittering and self-overlapping can be a feature to add interesting details if we choose a <a href="https://www.kynd.info/writing/codifying-materials-1/" target="_blank" rel="noopener">simulation-based approach</a>.</p>
+    <div class="jp">このプロジェクトでの選択に限らず、創作における判断はすべて文脈によって変わります。たとえば、ジオメトリベースのストロークを美しく見せるには<a href="https://www.kynd.info/writing/smoothing/" target="_blank" rel="noopener">スムージング</a>が役立つ一方、<a href="https://www.kynd.info/writing/codifying-materials-1/" target="_blank" rel="noopener">シミュレーションベースのアプローチ</a>では、揺らぎやストローク自体の重なりも、面白いディテールを生む望ましい特徴になり得ます。</div>
+
+    <p>We chose our approaches not to optimize for artists who spend a lot of time refining details, but to engage art festival guests, who spend only a short time creating, and to meet our needs for recording and replaying many artworks.</p>
+    <div class="jp">ここでは、時間をかけて細部を磨き上げるアーティスト向けではなく、短時間で創作を楽しむアートフェスティバルの来場者の関心を引き、創作意欲をかき立てること、そして多くの作品を記録・再生するというニーズに応えることを重視して、アプローチを選びました。</div>
+  </div>
+
+  <figure class="page-figure">
+    <img src={`${base}/images/strokes-simulation.jpg`} alt="Three examples of simulation-based drawing: soft scattered watercolor blobs, bleeding pigments pulled across the paper, and a photo-textured smear." width="1400" height="787" loading="lazy" />
+    <figcaption>
+      Examples of <a href="https://www.kynd.info/writing/codifying-materials-1/" target="_blank" rel="noopener">simulation based approaches</a>
+      <span class="jp"><a href="https://www.kynd.info/writing/codifying-materials-1/" target="_blank" rel="noopener">シミュレーションベースのアプローチ</a>の例</span>
+    </figcaption>
+  </figure>
 </PageLayout>
