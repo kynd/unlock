@@ -31,3 +31,26 @@ export function seedOffset(seed) {
     const f = (seed * 0.61803398875) % 1;
     return (f < 0 ? f + 1 : f) * 64;
 }
+
+/**
+ * Seeded 2D value noise: a smooth function of (x, y) in [-1, 1] with features
+ * about one unit apart, the same everywhere for the same seed. Lattice values
+ * hash from the integer cell and the seed; between them, a quintic fade
+ * interpolates.
+ */
+export function seededNoise2D(seed = 1) {
+    const s = Math.floor(seed * 2654435761) >>> 0;
+    const lattice = (ix, iy) => {
+        let h = Math.imul(ix, 374761393) ^ Math.imul(iy, 668265263) ^ s;
+        h = Math.imul(h ^ (h >>> 13), 1274126177);
+        return ((h ^ (h >>> 16)) >>> 0) / 4294967295 * 2 - 1;
+    };
+    const fade = t => t * t * t * (t * (t * 6 - 15) + 10);
+    return (x, y) => {
+        const ix = Math.floor(x), iy = Math.floor(y);
+        const fx = fade(x - ix), fy = fade(y - iy);
+        const a = lattice(ix, iy), b = lattice(ix + 1, iy);
+        const c = lattice(ix, iy + 1), d = lattice(ix + 1, iy + 1);
+        return (a + (b - a) * fx) + ((c + (d - c) * fx) - (a + (b - a) * fx)) * fy;
+    };
+}

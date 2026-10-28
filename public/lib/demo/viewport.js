@@ -45,14 +45,51 @@ export class Viewport {
         this.maxPixelRatio = maxPixelRatio;
         this.minPixelRatio = minPixelRatio;
         this._listeners = [];
+        // A fixed output size ({ width, height }), or null to fill the stage.
+        this._fixed = null;
         this.embedded = applyEmbeddedLayout();
         this._measure();
 
         new ResizeObserver(() => {
             if (this._measure()) {
                 this._listeners.forEach(fn => fn(this.pixelWidth, this.pixelHeight));
+            } else if (this._fixed) {
+                // A fixed surface does not change size with the stage, but its
+                // on-screen letterbox does, so refit the display.
+                this._fitFixed();
             }
         }).observe(this.wrap);
+    }
+
+    /**
+     * Pins the surface to an exact pixel size, displayed letterboxed to fit the
+     * stage, so an export is exactly that resolution. `null` returns to filling
+     * the stage. Fires the resize listeners when the surface size changes.
+     */
+    setFixedSize(width, height) {
+        this._fixed = (width > 0 && height > 0) ? { width: Math.round(width), height: Math.round(height) } : null;
+        if (!this._fixed) this._clearFixedStyle();
+        if (this._measure()) this._listeners.forEach(fn => fn(this.pixelWidth, this.pixelHeight));
+        else if (this._fixed) this._fitFixed();
+    }
+
+    /** Scales the canvas element to fit the stage, preserving the fixed aspect. */
+    _fitFixed() {
+        if (!this._fixed) return;
+        const { width, height } = this._fixed;
+        const wrapW = Math.max(1, this.wrap.clientWidth), wrapH = Math.max(1, this.wrap.clientHeight);
+        const scale = Math.min(wrapW / width, wrapH / height);
+        const s = this.canvas.style;
+        s.width = Math.round(width * scale) + 'px';
+        s.height = Math.round(height * scale) + 'px';
+        s.left = '50%'; s.top = '50%';
+        s.right = 'auto'; s.bottom = 'auto';
+        s.transform = 'translate(-50%, -50%)';
+    }
+
+    _clearFixedStyle() {
+        const s = this.canvas.style;
+        s.width = s.height = s.left = s.top = s.right = s.bottom = s.transform = '';
     }
 
     /** CSS width of the stage. */
@@ -70,11 +107,22 @@ export class Viewport {
 
     /** @returns {boolean} whether anything actually changed. */
     _measure() {
-        const width = Math.max(1, Math.round(this.wrap.clientWidth));
-        const height = Math.max(1, Math.round(this.wrap.clientHeight));
-        const pixelRatio = Math.min(
-            Math.max(window.devicePixelRatio || 1, this.minPixelRatio),
-            this.maxPixelRatio);
+        let width, height, pixelRatio;
+        if (this._fixed) {
+            // The world region and the backing store are both the fixed size, so
+            // the drawing composes for it and an export is exactly that size. The
+            // canvas is then scaled to fit the stage on screen.
+            width = this._fixed.width;
+            height = this._fixed.height;
+            pixelRatio = 1;
+            this._fitFixed();
+        } else {
+            width = Math.max(1, Math.round(this.wrap.clientWidth));
+            height = Math.max(1, Math.round(this.wrap.clientHeight));
+            pixelRatio = Math.min(
+                Math.max(window.devicePixelRatio || 1, this.minPixelRatio),
+                this.maxPixelRatio);
+        }
 
         if (width === this._width && height === this._height && pixelRatio === this._pixelRatio) {
             return false;

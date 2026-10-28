@@ -145,6 +145,14 @@ html, body {
    size of their own; the closed control keeps its compact face. */
 .dp-select option, .dp-select optgroup { font-size: 0.8rem; line-height: 1.6; }
 
+/* Text or number field, matching the select's face */
+.dp-input {
+  font-family: var(--font-mono); font-size: 0.58rem;
+  border: 1px solid #cccccc; background: var(--demo-bg);
+  padding: 3px 5px; width: 100%; min-width: 0; color: var(--demo-fg);
+}
+.dp-input:focus { outline: none; border-color: var(--demo-fg); }
+
 /* Buttons */
 .dp-btn {
   flex: 1;

@@ -88,6 +88,7 @@ src/content/pages/
     stroke-definition.md               one page per class or class group
     renderers.md
     palette.md  path-effects.md  curves.md
+    drawing-tool.md  initializers.md  auto-drawers.md  player.md
     writing-style.md                   how every explanation on this site is written
 src/pages/
   palette-maker.astro                  demo/log pages, written as .astro for embeds
@@ -149,6 +150,17 @@ public/lib/                            library code
                                        standalone playback transport; the Player
                                        page runs the engine headless with
                                        PlaybackConfig.
+                autoDrawers/  AutoDrawer.js  LayeredDrawer.js
+                              FlowFieldDrawer.js  GeometricDrawer.js
+                              AutoDrawerRunner.js  ui.js  index.js
+                                       AutoDrawer is the base of algorithms
+                                       that compose a whole drawing from a
+                                       seed as an initializer-shaped plan;
+                                       DrawingTool.drawPlan draws it.
+                                       AutoDrawerRunner is headless, ui.js
+                                       its default UI, setupAutoDrawer the
+                                       one-call demo. A new algorithm is a
+                                       subclass added to AUTO_DRAWERS.
   contract/     index.js               the packaging layer: engine, live view,
                                        and player wrapped behind a minimal
                                        interface for embedding in another

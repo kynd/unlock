@@ -611,13 +611,6 @@ export class DrawingTool {
 
     /** Empties the canvas, then lays down the configured initializer's strokes. */
     initialize({ background = null } = {}) {
-        this.cycle.disposeGhost();
-        // The initializer loop overwrites the live state with each mark, so remember
-        // the current selection and restore it afterward, keeping the same tool.
-        const keptTool = this._state.tool;
-        const keptValues = this._state.values;
-        const keptSens = this._state.sens;
-        const keptPreviewShape = this._previewShape;
         const ids = this.config.initializers;
         const plan = ids.length
             ? INITIALIZERS[ids[Math.floor(Math.random() * ids.length)]]({
@@ -626,16 +619,52 @@ export class DrawingTool {
             })
             : { marks: [] };
         const bg = background ?? plan.background ?? this._rollBackground();
+        this._runPlan(plan, bg, { initial: true });
+        // Back on the live tool; reroll its colors and width for a fresh start.
+        this._finishClear(bg, { rerollPalette: true, rerollWidth: true });
+    }
+
+    /**
+     * Empties the canvas and draws a plan (the shape an initializer rolls:
+     * `{ background, colors, marks }`) through the cycle, so its marks record,
+     * replay, and mirror like anything drawn. `seed` sets the cycle's seed
+     * first, so the same plan with the same seed bakes identical marks. A mark
+     * with `initial: true` records as initial, which a playback places
+     * instantly. The live selection is kept.
+     */
+    drawPlan(plan, { seed = null } = {}) {
+        if (this._replaying) return;
+        if (seed !== null) this.cycle.setSeed(seed);
+        const bg = plan.background ?? this._rollBackground();
+        this._runPlan(plan, bg);
+        this._finishClear(bg);
+    }
+
+    // Resets the surface to `bg` and feeds every mark of a plan through the
+    // cycle. Each mark overwrites the live state, so the current selection is
+    // remembered and restored afterward.
+    _runPlan(plan, bg, { initial = false } = {}) {
+        this.cycle.disposeGhost();
+        const kept = {
+            tool: this._state.tool, values: this._state.values,
+            widthPx: this._state.widthPx, sens: this._state.sens,
+            colorA: this._state.colorA, colorB: this._state.colorB,
+            colors: this._state.colors,
+        };
+        const keptPreviewShape = this._previewShape;
         this._resetSurface(bg);
-        this._initializing = true;
         for (const mark of plan.marks) {
             const entry = this._registry.find(e => e.id === mark.toolId);
             if (!entry) continue;
             this._state.tool = entry;
             this._state.values = { ...mark.values };
             this._state.widthPx = mark.widthPx;
+            this._state.sens = mark.sens ?? kept.sens;
             this._state.colorA = mark.colorA;
             this._state.colorB = mark.colorB;
+            // Set per mark: each release rerolls the live palette.
+            if (plan.colors) this._state.colors = [...plan.colors];
+            this._initializing = initial || Boolean(mark.initial);
             this._emitLiveState();
             this._emitLive('points', { points: mark.path.map(plainPoint) });
             // 'end' goes out before the feed: the feed's release rerolls the
@@ -645,12 +674,8 @@ export class DrawingTool {
             this.cycle.feed(mark.path, true);
         }
         this._initializing = false;
-        // Back to the live tool, then reroll its colors and width for a fresh start.
-        this._state.tool = keptTool;
-        this._state.values = keptValues;
-        this._state.sens = keptSens;
+        Object.assign(this._state, kept);
         this._previewShape = keptPreviewShape;
-        this._finishClear(bg, { rerollPalette: true, rerollWidth: true });
     }
 
     _resetSurface(bg) {
@@ -731,17 +756,25 @@ export class DrawingTool {
     // ------------------------------------------------------------------
     // Playback and data
 
-    /** Replays everything since the last clear. Fires replay-start/-end. */
-    replay() {
-        return this._runPlayer('play');
+    /**
+     * Replays everything since the last clear. Fires replay-start/-end. The
+     * options go to the player's `play` (`pointsPerFrame`, `strokeWaitMs`,
+     * `instantInitial`).
+     */
+    replay(options = {}) {
+        return this._runPlayer('play', options);
     }
+
+    /** Changes a running replay's speed: the points fed per frame. */
+    setReplaySpeed(pointsPerFrame) { this.player.setPointsPerFrame(pointsPerFrame); }
 
     /** Jumps a running replay to its end state. */
     stopReplay() { this.player.finish(); }
 
-    /** Replays while capturing the canvas; saves the video when done. */
-    recordVideo() {
-        return this._runPlayer('record');
+    /** Replays while capturing the canvas; saves the video when done. Takes
+     * the same options as `replay`. */
+    recordVideo(options = {}) {
+        return this._runPlayer('record', options);
     }
 
     /** The serialized log: `{ version, size, background, records }`. */
@@ -902,7 +935,7 @@ export class DrawingTool {
         return new Promise(resolve => copy.toBlob(resolve, 'image/png'));
     }
 
-    _runPlayer(mode) {
+    _runPlayer(mode, options = {}) {
         if (this._replaying || this.recorder.records.length === 0) return false;
         this._replaying = true;
         this._inputEnabled = false;
@@ -926,8 +959,8 @@ export class DrawingTool {
             this._emit('tool');
         };
         const ok = mode === 'record'
-            ? this.player.record({ onDone: done })
-            : this.player.play({ onDone: done });
+            ? this.player.record({ ...options, onDone: done })
+            : this.player.play({ ...options, onDone: done });
         if (!ok) done();
         return ok;
     }

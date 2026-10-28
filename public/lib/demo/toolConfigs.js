@@ -114,6 +114,14 @@ export class DrawingToolDemoConfig extends DrawingToolConfig {
     }
 }
 
+/** The auto drawer: the whole master registry for the algorithms to pick
+ * from, no preview box, and no initializer (the algorithm draws the page). */
+export class AutoDrawerConfig extends DrawingToolConfig {
+    constructor() {
+        super({ preview: false, initializers: [] });
+    }
+}
+
 /** Playback only: any log's tools resolve, and nothing draws over the replay. */
 export class PlaybackConfig extends DrawingToolConfig {
     constructor() {

@@ -136,6 +136,9 @@ export class DrawingPlayer {
         return true;
     }
 
+    /** Changes the animation speed, also mid-playback: the points fed per frame. */
+    setPointsPerFrame(n) { this._ppf = Math.max(1, Math.round(n)); }
+
     /** Holds a running playback; the canvas keeps what is drawn. */
     pause() {
         if (!this._playing) return;
@@ -278,10 +281,11 @@ export class DrawingPlayer {
 
     /**
      * Plays from the start while capturing the canvas, then saves the video.
-     * The file is mp4 where the browser can encode it, webm otherwise.
-     * Returns whether the recording started.
+     * The file is mp4 where the browser can encode it, webm otherwise. The
+     * remaining options (`pointsPerFrame`, `strokeWaitMs`, `instantInitial`)
+     * go to `play`. Returns whether the recording started.
      */
-    record({ filename = 'drawing', onDone } = {}) {
+    record({ filename = 'drawing', onDone, ...playOptions } = {}) {
         if (this._playing || this._recording || !this.hasData) return false;
         const stream = this.canvas.captureStream(60);
         // H.264 (mp4) caps the frame size (about 36864 macroblocks, 4096 to a side).
@@ -326,7 +330,7 @@ export class DrawingPlayer {
                 }
             }, 1000 / 60);
         };
-        const ok = this.play({ onDone: finish });
+        const ok = this.play({ ...playOptions, onDone: finish });
         if (!ok) {
             media.stop();
             this._recording = false;

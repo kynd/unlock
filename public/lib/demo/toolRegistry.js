@@ -579,10 +579,12 @@ function gradPoints(ctx, axis) {
 }
 
 
-export function randomValues(entry) {
+/** Rolls a value for each of an entry's parameters. `rand` defaults to
+ * Math.random; pass a seeded generator for a reproducible roll. */
+export function randomValues(entry, rand = Math.random) {
     return Object.fromEntries(entry.params.map(p => {
-        if (p.pick) return [p.key, p.pick[Math.floor(Math.random() * p.pick.length)]];
-        const v = p.min + Math.random() * (p.max - p.min);
+        if (p.pick) return [p.key, p.pick[Math.floor(rand() * p.pick.length)]];
+        const v = p.min + rand() * (p.max - p.min);
         return [p.key, p.step >= 1 ? Math.round(v) : v];
     }));
 }

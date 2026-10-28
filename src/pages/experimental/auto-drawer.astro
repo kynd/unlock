@@ -1,0 +1,30 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<PageLayout title="Auto drawer" slug="experimental/auto-drawer">
+  <div class="monologue">
+    On this page, we let algorithms paint with the drawing tool: each one follows its own rules, and a seed decides the rest.
+    <div class="jp">このページでは、描画ツールでアルゴリズムに絵を描かせます。それぞれのアルゴリズムは自分の規則に従い、残りはシードが決めます。</div>
+  </div>
+
+  <div class="prose">
+    <p>This page is experimental and only exists in the local build. An auto drawer composes a whole drawing as a plan (the same marks an initializer rolls) and the drawing tool draws it through its cycle, so the result replays, records, and exports like a drawing made by hand. The same algorithm and seed on the same canvas size draw the same picture.</p>
+    <div class="jp">このページは実験的なもので、ローカルのビルドにのみ存在します。オートドロワーは絵全体をプランとして組み立て（イニシャライザがロールするのと同じ筆跡）、描画ツールがそれをサイクルに通して描きます。そのため結果は、手で描いた絵と同じように再生、録画、書き出しができます。同じアルゴリズムと同じシードは、同じキャンバスの大きさで同じ絵を描きます。</div>
+  </div>
+
+  <section class="demo-section" id="demo">
+    <div class="demo-header">
+      <h2>Auto drawer</h2>
+      <a href={`${base}/demos/experimental/auto-drawer/index.html`} target="_blank" rel="noopener">open full size ↗</a>
+    </div>
+    <div class="demo-embed">
+      <iframe src={`${base}/demos/experimental/auto-drawer/index.html?embedded`} title="Auto drawer" scrolling="no" allow="fullscreen" allowfullscreen></iframe>
+    </div>
+    <div class="prose">
+      <p>Choose an algorithm from the menu, then press New seed for another drawing or type a seed and press Generate to draw a known one. Replay animates the drawing again, Speed sets how fast, and Loop with new seeds keeps painting new drawings one after another.</p>
+      <div class="jp">メニューからアルゴリズムを選び、New seedで別の絵を描かせるか、シードを入力してGenerateで決まった絵を描かせてください。Replayで絵をもう一度アニメーションで描き、Speedでその速さを変えられます。Loop with new seedsをオンにすると、新しい絵を次々に描き続けます。</div>
+    </div>
+  </section>
+</PageLayout>
